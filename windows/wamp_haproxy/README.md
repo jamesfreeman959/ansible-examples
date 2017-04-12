@@ -60,18 +60,19 @@ ansible_connection: winrm
 ansible_winrm_server_cert_validation: ignore
 ```
 
-6. Now run the deployment playbook as follows:
+7. Now run the deployment playbook as follows:
 ```
 ansible-playbook -i ec2.py site.yml --ask-vault-pass
 ```
 
-7. Now if you have the AWS CLI installed, you can find the IP or DNS name of your new load balancer to access the service:
+8. Now if you have the AWS CLI installed, you can find the IP or DNS name of your new load balancer to access the service:
 ```
 aws elb describe-load-balancers
 ```
 
-8. Now to update the web content on the front-end nodes, edit the `rolling_update.yml` file and set the serial to identify which of the 3 instances you want to update, and then run:
+9. Now to perform a rolling update the web content on the front-end nodes, run:
 ```
 ansible-playbook -i ec2.py rolling_update.yml --ask-vault-pass
 ```
+This will sequentially remove each node from the load balancer, perform the update, and then put the node back into service. This is a good example of running Ansible tasks sequentially, where Ansible would otherwise attempt to run them in parallel.
 

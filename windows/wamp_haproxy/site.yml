@@ -3,10 +3,6 @@
 
 # Configure and deploy database servers.
 - hosts: tag_ansible_group_windows_dbservers
-  connection: winrm
-
-  vars:
-    ansible_ssh_port : 5986
 
   roles:
   - mssql
@@ -57,7 +53,7 @@
   - name: Add host to load balancing pool 
     local_action: 
       module: ec2_elb
-      region: us-east-1
+      region: "{{ ec2_region }}"
       instance_id: "{{ ec2_id }}"
       ec2_elbs: "ansible-windows-demo-lb"
       wait_timeout: 330

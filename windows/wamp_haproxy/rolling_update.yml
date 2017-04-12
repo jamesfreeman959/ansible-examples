@@ -17,7 +17,7 @@
   - name: Remove host from load balancing pool
     local_action:
       module: ec2_elb
-      region: us-east-1
+      region: "{{ ec2_region }}"
       instance_id: "{{ ec2_id }}"
       ec2_elbs: "ansible-windows-demo-lb"
       wait_timeout: 330
@@ -25,7 +25,7 @@
 
   roles:
 #  - iis 
-  - web
+  - quruweb
 
   # These tasks run after the roles:
   post_tasks:
@@ -35,7 +35,7 @@
   - name: Add host to load balancing pool
     local_action:
       module: ec2_elb
-      region: us-east-1
+      region: "{{ ec2_region }}"
       instance_id: "{{ ec2_id }}"
       ec2_elbs: "ansible-windows-demo-lb"
       wait_timeout: 330
