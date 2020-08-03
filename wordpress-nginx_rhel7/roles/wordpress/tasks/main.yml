@@ -57,4 +57,4 @@
   command: restorecon -Rv /srv/wordpress
 
 - name: Start php-fpm Service
-  service: name=php-fpm state=started enabled=yes
+  service: name=php74-php-fpm state=started enabled=yes

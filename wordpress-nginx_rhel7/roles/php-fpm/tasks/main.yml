@@ -1,22 +1,31 @@
 ---
 - name: Install php-fpm and deps
-  yum: name={{ item }} state=present
-  with_items:
-    - php
-    - php-fpm
-    - php-enchant
+  yum: 
+    name:
+    - php74
+    - php74-php-fpm
+    - php74-php-enchant
     - php-IDNA_Convert
-    - php-mbstring
-    - php-mysql
+    - php74-php-mbstring
+    - php74-php-mysql
     - php-PHPMailer
-    - php-process
-    - php-simplepie
-    - php-xml
+    - php74-php-process
+#    - php-simplepie
+    - php74-php-xml
+    state: present
 
 - name: Disable default pool
-  command: mv /etc/php-fpm.d/www.conf /etc/php-fpm.d/www.disabled creates=/etc/php-fpm.d/www.disabled
+  command: mv /etc/opt/remi/php74/php-fpm.d/www.conf /etc/opt/remi/php74/php-fpm.d/www.disabled creates=/etc/opt/remi/php74/php-fpm.d/www.disabled
   notify: restart php-fpm
 
 - name: Copy php-fpm configuration
-  template: src=wordpress.conf dest=/etc/php-fpm.d/
+  template: 
+    src: wordpress.conf 
+    dest: /etc/opt/remi/php74/php-fpm.d/
   notify: restart php-fpm
+
+- name: Create directory for socket file
+  file:
+    path: /var/run/php-fpm
+    state: directory
+
